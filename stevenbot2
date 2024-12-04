@@ -1,0 +1,155 @@
+#######################################################################
+import discord
+from discord import Member
+from discord.ext import commands
+
+import json
+import os
+#######################################################################
+
+# allows for intents
+intents = discord.Intents.default()
+
+# allows messages to be recognized and responded too
+intents.messages = True # Required for processing message-based commands
+intents.message_content = True   # Required for processing message-based commands
+
+intents.members = True
+
+#client is the bot
+client = commands.Bot(command_prefix='!aoc ', intents=intents)
+
+
+
+
+
+
+# starts the console strings so I can later modify this
+@client.event
+async def on_ready():
+    await client.tree.sync()
+    print("Hello I am Ashes-bot")
+    print("---------------------------------")
+
+
+##############################################################################################################
+
+
+
+@client.command()
+async def role(ctx):
+    embed = discord.Embed(
+        title="Archetypes", 
+        description="Glorious Alpha 2 testers select your main archetype!  \n Fighter:⚔️  \n Mage: 🧙‍♂️  \n Tank :🛡️  \n Rogue:🕵️‍♂️ \n Bard:🎶 \n Cleric:⛪ \n Ranger:🏹", 
+        color= 0xfffff
+        
+    )
+    
+    
+    message = await ctx.send(embed=embed)
+    
+    await message.add_reaction("⚔️")
+    
+    await message.add_reaction("🧙‍♂️")
+    
+    await message.add_reaction("🛡️")
+    
+    await message.add_reaction("🕵️‍♂️")  # Rogue role
+    
+    await message.add_reaction("🎶")  # Bard role
+    
+    await message.add_reaction("⛪")  # Cleric role
+    
+    await message.add_reaction("🏹")  # Ranger role
+    
+@client.event 
+async def on_reaction_add(reaction, user):
+    # Ignore bot's own reactions
+
+
+    # Get the role based on the emoji reacted with
+    if reaction.emoji == "⚔️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Fighter")
+        if role:
+            await user.add_roles(role)
+        
+    elif reaction.emoji == "🧙‍♂️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Mage")
+        if role:
+            await user.add_roles(role)
+
+    elif reaction.emoji == "🛡️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Tank")
+        if role:
+            await user.add_roles(role)
+
+    elif reaction.emoji == "🕵️‍♂️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Rogue")
+        if role:
+            await user.add_roles(role)
+
+    elif reaction.emoji == "🎶":
+        role = discord.utils.get(reaction.message.guild.roles, name="Bard")
+        if role:
+            await user.add_roles(role)
+
+    elif reaction.emoji == "⛪":
+        role = discord.utils.get(reaction.message.guild.roles, name="Cleric")
+        if role:
+            await user.add_roles(role)
+
+    elif reaction.emoji == "🏹":
+        role = discord.utils.get(reaction.message.guild.roles, name="Ranger")
+        if role:
+            await user.add_roles(role)    
+
+
+@client.event
+async def on_reaction_remove(reaction, user):
+    # Ignore bot's own reactions
+    if user.bot:
+        return
+
+    # Remove the role when a user removes their reaction
+    if reaction.emoji == "⚔️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Fighter")
+        if role:
+            await user.remove_roles(role)
+
+    elif reaction.emoji == "🧙‍♂️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Mage")
+        if role:
+            await user.remove_roles(role)
+            
+    elif reaction.emoji == "🛡️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Tank")
+        if role:
+            await user.remove_roles(role)
+            
+    elif reaction.emoji == "🛡️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Tank")
+        if role:
+            await user.remove_roles(role)
+    elif reaction.emoji == "🕵️‍♂️":
+        role = discord.utils.get(reaction.message.guild.roles, name="Rogue")
+        if role:
+            await user.remove_roles(role)
+
+    elif reaction.emoji == "🎶":
+        role = discord.utils.get(reaction.message.guild.roles, name="Bard")
+        if role:
+            await user.remove_roles(role)
+
+    elif reaction.emoji == "⛪":
+        role = discord.utils.get(reaction.message.guild.roles, name="Cleric")
+        if role:
+            await user.remove_roles(role)
+
+    elif reaction.emoji == "🏹":
+        role = discord.utils.get(reaction.message.guild.roles, name="Ranger")
+        if role:
+            await user.remove_roles(role)    
+
+###################################################################### Remember to switch out this
+client.run("AOCKEY")
+
