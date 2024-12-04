@@ -21,12 +21,17 @@ client = commands.Bot(command_prefix='!aoc ', intents=intents)
 
 
 
+@client.command()
+async def embed(ctx):
+    embed = discord.Embed(title="Archetypes", description="Please select your main ", color= 0xfffff)
+    await ctx.send(embed=embed)
 
 
 
 # starts the console strings so I can later modify this
 @client.event
 async def on_ready():
+    await client.tree.sync()
     print("Hello I am Ashes-bot")
     print("---------------------------------")
 
@@ -80,30 +85,108 @@ async def on_member_join(member):
     
     channel = client.get_channel()
     await channel.send("Check your dms")
+
+@client.event
+async def on_ready():
+    await client.tree.sync()
+    print(f"Logged in as {client.user}")
     
     
-
-
-#@client.command()
-#@has_permissions()
-# Command to assign a role
-@client.command(name="assignrole")
-@commands.has_permissions(manage_roles=True)
-async def assign_role(ctx, member: discord.Member, role: discord.Role):
-    try:
-        # Assign the role
-        await member.add_roles(role)
-        await ctx.send(f"Assigned {role.mention} to {member.mention}")
-    except Exception as e:
-        await ctx.send(f"An error occurred: {e}")
+    
+class SelfRoles(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
     
     
+    #Fighter
+    #designs the button lable is the name .red is the color
+    @discord.ui.button(label= "Fighter", style= discord.ButtonStyle.red)
+    #syncs the command through the funtion and assigns the mentioned role
+    async def fighter_button(self, interaction: discord.Interaction, Button: discord.ui.Button):
+        fighter_role = discord.utils.get(interaction.guild.roles, name="Fighter")
+        #deals with removing and adding roles
+        if fighter_role in interaction.user.roles:
+            await interaction.user.remove_roles(fighter_role)
+        else:
+            await interaction.user.add_roles(fighter_role)
+        
+        
+    #Mage   
+    @discord.ui.button(label= "Mage", style= discord.ButtonStyle.blurple)
+    async def mage_button(self, interaction: discord.Interaction, Button: discord.ui.Button):
+        mage_role = discord.utils.get(interaction.guild.roles, name="Mage")
+        if mage_role in interaction.user.roles:
+            await interaction.user.remove_roles(mage_role)
+        else:
+            await interaction.user.add_roles(mage_role)
+    
+   
+    #Ranger
+    @discord.ui.button(label= "Ranger", style= discord.ButtonStyle.green)
+    async def ranger_button(self, interaction: discord.Interaction, Button: discord.ui.Button):
+        ranger_role = discord.utils.get(interaction.guild.roles, name="Ranger")
+        if ranger_role in interaction.user.roles:
+            await interaction.user.remove_roles(ranger_role)
+        else:
+            await interaction.user.add_roles(ranger_role)
+        
+    #Rogue
+    @discord.ui.button(label= "Rogue", style= discord.ButtonStyle.grey)
+    async def rogue_button(self, interaction: discord.Interaction, Button: discord.ui.Button):
+        rogue_role = discord.utils.get(interaction.guild.roles, name="Rogue")
+        if rogue_role in interaction.user.roles:
+            await interaction.user.remove_roles(rogue_role)
+        else:
+            await interaction.user.add_roles(rogue_role)
+            
+        
+        
+    #Cleric   
+    @discord.ui.button(label= "Cleric", style= discord.ButtonStyle.red)
+    async def cleric_button(self, interaction: discord.Interaction, Button: discord.ui.Button):
+        cleric_role = discord.utils.get(interaction.guild.roles, name="Cleric")
+        if cleric_role in interaction.user.roles:
+            await interaction.user.remove_roles(cleric_role)
+        else:
+            await interaction.user.add_roles(cleric_role)
+            
+        
+        
+    #Bard    
+    @discord.ui.button(label= "Bard", style= discord.ButtonStyle.red)
+    async def bard_button(self, interaction: discord.Interaction, Button: discord.ui.Button):
+        bard_role = discord.utils.get(interaction.guild.roles, name="Bard")
+        if bard_role in interaction.user.roles:
+            await interaction.user.remove_roles(bard_role)
+        else:
+            await interaction.user.add_roles(bard_role)
+        
+        
+        
+    #Tank
+    @discord.ui.button(label= "Tank", style= discord.ButtonStyle.red)
+    async def tank_button(self, interaction: discord.Interaction, Button: discord.ui.Button):
+        tank_role = discord.utils.get(interaction.guild.roles, name="Tank")
+        if tank_role in interaction.user.roles:
+            await interaction.user.remove_roles(tank_role)
+        else:
+            await interaction.user.add_roles(tank_role)
+        
+        
+        
+
+    
+    
+        
+@client.tree.command(name="selfroles", description="What is your main role?")
+async def self_role(interaction: discord.Interaction):
+    print("Selfroles command triggered!")  # Debug statement
+    await interaction.response.send_message(content="Click the button that matches your role!", view=SelfRoles())
+
+   
 
 
-
-
-
-client.run("BOTTOKEN")
+client.run("bottoken")
 
 
 
